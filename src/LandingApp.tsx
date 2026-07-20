@@ -122,6 +122,7 @@ export function LandingApp() {
         <a href="#workflow">Workflow</a>
         <a href="#pipeline">Pipeline</a>
         <a href="#capabilities">Capabilities</a>
+        <a href="#insights">Insights</a>
         <a href="#security">Security</a>
       </nav>
       <a className="landing-signin" href={signInUrl}>Sign in<ArrowRight /></a>
@@ -199,6 +200,14 @@ export function LandingApp() {
       <section className="landing-section" id="capabilities">
         <div className="landing-section-heading"><span>Built for mobile teams</span><h2>More than artifact storage.</h2><p>Bring build entry points, pipeline progress, artifacts, and collaboration together around real delivery work.</p></div>
         <div className="landing-capability-grid">{capabilities.map(({ icon: Icon, visual, title, description }) => <article key={title}><div className="landing-capability-heading"><Icon /><span>{title}</span></div><CapabilityIllustration kind={visual} /><h3>{title}</h3><p>{description}</p></article>)}</div>
+      </section>
+
+      <section className="landing-section landing-insights" id="insights">
+        <div className="landing-insights-copy">
+          <div><span>Delivery intelligence</span><h2 aria-label="See delivery health, not just build activity.">See delivery health,<br />not just build activity.</h2></div>
+          <div><p>Turn 30 days of pipeline data into clear signals for reliability, speed, queue pressure, and delivery throughput.</p><ul><li><Check />Success and latency trends</li><li><Check />Median and P90 build time</li><li><Check />Active builds and throughput</li></ul></div>
+        </div>
+        <figure className="landing-real-shot landing-insights-shot"><div className="landing-shot-frame"><img src={marketingAsset("dashboard-insights-en.webp")} alt="Bakery delivery insights dashboard showing build success, duration, throughput, and trend metrics" loading="lazy" decoding="async" /></div><figcaption>Success rate · Build duration · Queue pressure · Throughput</figcaption></figure>
       </section>
 
       <section className="landing-section landing-ci-showcase">
