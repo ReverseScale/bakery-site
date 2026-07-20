@@ -2,6 +2,8 @@
 
 Bakery 的独立产品官网，内容从 distributor 的未登录介绍页抽取，使用 Vite、React 和静态营销配图构建，可部署到 GitHub Pages。
 
+官网包含 Build、Package、Deliver 主叙事，以及 Delivery intelligence 产品证明区。该区域使用英文脱敏工作台配图展示构建成功率、Median/P90 耗时、队列压力、吞吐量与趋势，不包含生产账号、应用名或内部地址。
+
 ## 本地开发
 
 ```bash
