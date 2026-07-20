@@ -27,7 +27,7 @@ import { BRAND } from "./brand";
 
 const integrations = ["Jenkins", "GitLab CI", "Webhook", "Bitrise", "Feishu", "S3", "Open API"];
 const homeUrl = import.meta.env.BASE_URL;
-const platformUrl = (import.meta.env.VITE_PLATFORM_URL || "https://dist.builder.addx.live").replace(/\/$/, "");
+const platformUrl = (import.meta.env.VITE_PLATFORM_URL || "https://tims.tail5d10b9.ts.net/bakery").replace(/\/$/, "");
 const signInUrl = `${platformUrl}/login/signin`;
 const marketingAsset = (filename: string) => `${import.meta.env.BASE_URL}marketing/${filename}`;
 

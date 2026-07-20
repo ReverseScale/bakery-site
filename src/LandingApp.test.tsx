@@ -20,10 +20,10 @@ describe("Bakery public site", () => {
 
     expect(screen.getByRole("link", { name: "Sign in" })).toHaveAttribute(
       "href",
-      "https://dist.builder.addx.live/login/signin",
+      "https://tims.tail5d10b9.ts.net/bakery/login/signin",
     );
     for (const link of screen.getAllByRole("link", { name: "Sign in to Bakery" })) {
-      expect(link).toHaveAttribute("href", "https://dist.builder.addx.live/login/signin");
+      expect(link).toHaveAttribute("href", "https://tims.tail5d10b9.ts.net/bakery/login/signin");
     }
   });
 
