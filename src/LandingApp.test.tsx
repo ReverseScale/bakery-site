@@ -11,6 +11,7 @@ describe("Bakery public site", () => {
     expect(screen.getByRole("heading", { name: "Build. Package. Deliver." })).toBeInTheDocument();
     expect(screen.getByRole("heading", { name: /From code to installation/ })).toBeInTheDocument();
     expect(screen.getByRole("heading", { name: /Every build, clearly explained/ })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: /Keep every signing asset ready/ })).toBeInTheDocument();
     expect(screen.getByRole("heading", { name: /See delivery health, not just build activity/ })).toBeInTheDocument();
     expect(screen.getByRole("heading", { name: /Keep credentials server-side/ })).toBeInTheDocument();
   });
@@ -40,5 +41,17 @@ describe("Bakery public site", () => {
     render(<LandingApp />);
 
     expect(screen.getByRole("link", { name: "Insights" })).toHaveAttribute("href", "#insights");
+  });
+
+  test("explains signing custody, machine sync, and expiry health with sanitized identifiers", () => {
+    render(<LandingApp />);
+
+    expect(screen.getByRole("link", { name: "Signing" })).toHaveAttribute("href", "#signing");
+    expect(screen.getByText("Private asset custody")).toBeInTheDocument();
+    expect(screen.getByText("Build machine sync")).toBeInTheDocument();
+    expect(screen.getByText("Expiry health alerts")).toBeInTheDocument();
+    expect(screen.getByText("com.example.mobile")).toBeInTheDocument();
+    expect(screen.getByText("Team ••••••••••")).toBeInTheDocument();
+    expect(screen.getByText("Key ID ••••••")).toBeInTheDocument();
   });
 });

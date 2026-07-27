@@ -85,6 +85,27 @@ const capabilities = [
   },
 ] as const;
 
+const signingAssetPreview = [
+  {
+    name: "Distribution profile",
+    detail: "App Store release · Production",
+    scope: "com.example.mobile",
+    status: "Valid",
+  },
+  {
+    name: "Development certificate",
+    detail: "Device testing · Development",
+    scope: "Team ••••••••••",
+    status: "Valid",
+  },
+  {
+    name: "Service API key",
+    detail: "Release automation · Production",
+    scope: "Key ID ••••••",
+    status: "Expires in 24 days",
+  },
+] as const;
+
 function WorkflowIllustration({ verb }: { verb: "Build" | "Package" | "Deliver" }) {
   if (verb === "Build") return <div className="landing-card-visual landing-build-illustration" role="img" aria-label="Build branch and parameter preview">
     <div className="landing-illustration-row"><GitBranch /><span><small>Branch</small><strong>release/mobile</strong></span><Play /></div>
@@ -122,6 +143,7 @@ export function LandingApp() {
         <a href="#workflow">Workflow</a>
         <a href="#pipeline">Pipeline</a>
         <a href="#capabilities">Capabilities</a>
+        <a href="#signing">Signing</a>
         <a href="#insights">Insights</a>
         <a href="#security">Security</a>
       </nav>
@@ -200,6 +222,39 @@ export function LandingApp() {
       <section className="landing-section" id="capabilities">
         <div className="landing-section-heading"><span>Built for mobile teams</span><h2>More than artifact storage.</h2><p>Bring build entry points, pipeline progress, artifacts, and collaboration together around real delivery work.</p></div>
         <div className="landing-capability-grid">{capabilities.map(({ icon: Icon, visual, title, description }) => <article key={title}><div className="landing-capability-heading"><Icon /><span>{title}</span></div><CapabilityIllustration kind={visual} /><h3>{title}</h3><p>{description}</p></article>)}</div>
+      </section>
+
+      <section className="landing-section landing-signing" id="signing">
+        <div className="landing-signing-copy">
+          <span>Signing asset operations</span>
+          <h2>Keep every signing asset ready for the next build.</h2>
+          <p>Manage certificates, provisioning profiles, service keys, and release credentials by application, purpose, and environment. Bakery validates each upload and keeps private content in protected object storage.</p>
+          <div className="landing-signing-benefits">
+            <article><ShieldCheck /><span><strong>Private asset custody</strong><small>Role-based access, encrypted storage, version history, and auditable activity.</small></span></article>
+            <article><RotateCcw /><span><strong>Build machine sync</strong><small>Revocable machine credentials retrieve the current authorized bundle and replace it atomically.</small></span></article>
+            <article><BellRing /><span><strong>Expiry health alerts</strong><small>Project pages surface safe, aggregate warnings before active assets expire or become invalid.</small></span></article>
+          </div>
+        </div>
+
+        <div className="landing-signing-product" role="img" aria-label="Sanitized signing asset management preview with current assets and an expiry warning">
+          <div className="landing-signing-product-bar">
+            <span><ShieldCheck /><strong>Mobile App · Signing assets</strong></span>
+            <small>3 current assets</small>
+          </div>
+          <div className="landing-signing-alert"><BellRing /><span><strong>Asset attention required</strong><small>One current credential expires within 30 days.</small></span><em>Review</em></div>
+          <div className="landing-signing-list">
+            {signingAssetPreview.map((asset) => <div className="landing-signing-row" key={asset.name}>
+              <span className="landing-signing-state"><CheckCircle2 /></span>
+              <span className="landing-signing-identity"><strong>{asset.name}</strong><small>{asset.detail}</small></span>
+              <code>{asset.scope}</code>
+              <em className={asset.status.startsWith("Expires") ? "warning" : ""}>{asset.status}</em>
+            </div>)}
+          </div>
+          <div className="landing-signing-machine">
+            <span><RotateCcw /><small>Build machine</small><strong>Signing bundle synchronized</strong></span>
+            <code>Current · verified · token protected</code>
+          </div>
+        </div>
       </section>
 
       <section className="landing-section landing-insights" id="insights">

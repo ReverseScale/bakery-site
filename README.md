@@ -2,7 +2,11 @@
 
 Bakery 的独立产品官网，内容从 distributor 的未登录介绍页抽取，使用 Vite、React 和静态营销配图构建，可部署到 GitHub Pages。
 
-官网包含 Build、Package、Deliver 主叙事，以及 Delivery intelligence 产品证明区。该区域使用英文脱敏工作台配图展示构建成功率、Median/P90 耗时、队列压力、吞吐量与趋势，不包含生产账号、应用名或内部地址。
+官网包含 Build、Package、Deliver 主叙事、Signing asset operations 与 Delivery intelligence 产品证明区。
+
+Signing asset operations 介绍证书、Provisioning Profile、服务密钥等项目级资产托管，打包机使用可撤销机器凭据自动同步当前有效资产，以及项目页面中的聚合过期提醒。该区块使用 React/CSS 构造的脱敏产品示意，不引用生产截图；应用名、Bundle ID、Team ID、文件名、设备数量和具体有效期均为通用示例或掩码。
+
+Delivery intelligence 区域使用英文脱敏工作台配图展示构建成功率、Median/P90 耗时、队列压力、吞吐量与趋势，不包含生产账号、应用名或内部地址。
 
 ## 本地开发
 
