@@ -12,6 +12,7 @@ describe("Bakery public site", () => {
     expect(screen.getByRole("heading", { name: /From code to installation/ })).toBeInTheDocument();
     expect(screen.getByRole("heading", { name: /Every build, clearly explained/ })).toBeInTheDocument();
     expect(screen.getByRole("heading", { name: /Keep every signing asset ready/ })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: /Know what is live before the next release/ })).toBeInTheDocument();
     expect(screen.getByRole("heading", { name: /See delivery health, not just build activity/ })).toBeInTheDocument();
     expect(screen.getByRole("heading", { name: /Keep credentials server-side/ })).toBeInTheDocument();
   });
@@ -41,6 +42,7 @@ describe("Bakery public site", () => {
     render(<LandingApp />);
 
     expect(screen.getByRole("link", { name: "Insights" })).toHaveAttribute("href", "#insights");
+    expect(screen.getByRole("link", { name: "Releases" })).toHaveAttribute("href", "#releases");
   });
 
   test("explains signing custody, machine sync, and expiry health with sanitized identifiers", () => {
@@ -53,5 +55,15 @@ describe("Bakery public site", () => {
     expect(screen.getByText("com.example.mobile")).toBeInTheDocument();
     expect(screen.getByText("Team ••••••••••")).toBeInTheDocument();
     expect(screen.getByText("Key ID ••••••")).toBeInTheDocument();
+  });
+
+  test("explains official store release visibility without claiming direct publishing", () => {
+    render(<LandingApp />);
+
+    expect(screen.getByRole("img", { name: "Official store release management preview" })).toBeInTheDocument();
+    expect(screen.getByText("Read-only release visibility")).toBeInTheDocument();
+    expect(screen.getByText("Online version")).toBeInTheDocument();
+    expect(screen.getAllByText("Latest submission")).toHaveLength(2);
+    expect(screen.getByText("2.8.0 entered review")).toBeInTheDocument();
   });
 });

@@ -17,9 +17,11 @@ import {
   PackageCheck,
   Play,
   QrCode,
+  RefreshCw,
   RotateCcw,
   ShieldCheck,
   Smartphone,
+  Store,
   TimerReset,
   UsersRound,
 } from "lucide-react";
@@ -144,6 +146,7 @@ export function LandingApp() {
         <a href="#pipeline">Pipeline</a>
         <a href="#capabilities">Capabilities</a>
         <a href="#signing">Signing</a>
+        <a href="#releases">Releases</a>
         <a href="#insights">Insights</a>
         <a href="#security">Security</a>
       </nav>
@@ -253,6 +256,32 @@ export function LandingApp() {
           <div className="landing-signing-machine">
             <span><RotateCcw /><small>Build machine</small><strong>Signing bundle synchronized</strong></span>
             <code>Current · verified · token protected</code>
+          </div>
+        </div>
+      </section>
+
+      <section className="landing-section landing-release" id="releases">
+        <div className="landing-release-copy">
+          <span>Official store visibility</span>
+          <h2>Know what is live before the next release.</h2>
+          <p>Connect project-scoped, read-only credentials for App Store Connect or Google Play. Compare the online version with the latest submission and follow review status without leaving the delivery workspace.</p>
+          <div className="landing-release-benefits">
+            <span><Store /><strong>One store view</strong><small>Online version, latest submission, and review state stay together.</small></span>
+            <span><RefreshCw /><strong>Current upstream status</strong><small>Refresh official store data on demand with traceable sync results.</small></span>
+            <span><BellRing /><strong>Visible transitions</strong><small>See review and publication changes around the application they affect.</small></span>
+          </div>
+        </div>
+        <div className="landing-release-product" role="img" aria-label="Official store release management preview">
+          <div className="landing-release-product-bar"><span><Store /><strong>Mobile App · Release management</strong></span><small><RefreshCw /> Synced just now</small></div>
+          <div className="landing-release-provider"><span><b>AS</b><i><strong>App Store Connect</strong><small>Read-only release visibility</small></i></span><em>Connected</em></div>
+          <div className="landing-release-summary">
+            <article><small>Online version</small><strong>2.7.1</strong><em className="published">Published</em></article>
+            <article><small>Latest submission</small><strong>2.8.0</strong><em className="review">In review</em></article>
+            <article><small>Last synchronized</small><strong>Just now</strong><em>Up to date</em></article>
+          </div>
+          <div className="landing-release-timeline">
+            <span><i><Check /></i><b><strong>2.7.1 published</strong><small>Production · App Store</small></b><time>Jun 24</time></span>
+            <span><i><Activity /></i><b><strong>2.8.0 entered review</strong><small>Latest submission</small></b><time>Today</time></span>
           </div>
         </div>
       </section>
