@@ -137,6 +137,148 @@ function CapabilityIllustration({ kind }: { kind: "orchestrate" | "pipeline" | "
   </div>;
 }
 
+function BuildEngineBridge() {
+  const pluginSteps = [
+    { group: "Prepare", plugin: "prepare.env_jenkins", detail: "Normalize task inputs", state: "done" },
+    { group: "Check", plugin: "check.package_size", detail: "Enforce release policy", state: "done" },
+    { group: "Build", plugin: "build.flutter", detail: "Compile and sign", state: "active" },
+    { group: "Upload", plugin: "upload.internal", detail: "Link the artifact", state: "queued" },
+  ];
+
+  return <section
+    className="landing-section landing-build-engine"
+    id="build-engine"
+    aria-label="One platform, a composable build engine"
+  >
+    <div className="landing-section-heading">
+      <span>Build engine integration</span>
+      <h2>One platform, a composable build engine.</h2>
+      <p>Bakery owns the delivery task and its evidence. Build CLI turns a versioned pipeline into executable plugins on the build machine, then streams each transition and artifact back to the same workspace.</p>
+    </div>
+
+    <div className="landing-engine-workbench">
+      <div className="landing-engine-terminal">
+        <header><span><i /><i /><i /></span><small>Build machine · bcli</small><em>Execution plane</em></header>
+        <div className="landing-engine-command"><b>$</b><code>bcli pipeline run config/mobile/ios-release.yaml</code></div>
+        <div className="landing-engine-config"><GitBranch /><span><small>Configuration snapshot</small><strong>Versioned YAML · immutable for this run</strong></span><CheckCircle2 /></div>
+        <div className="landing-engine-steps">
+          {pluginSteps.map((step) => <div className={step.state} key={step.plugin}>
+            <span>{step.state === "done" ? <Check /> : step.state === "active" ? <Activity /> : <TimerReset />}</span>
+            <b><small>{step.group}</small><code>{step.plugin}</code></b>
+            <em>{step.detail}</em>
+          </div>)}
+        </div>
+      </div>
+
+      <div className="landing-engine-contract">
+        <div className="landing-engine-contract-title"><Braces /><span><small>Stable plugin contract</small><strong>Replace steps, not the engine</strong></span></div>
+        <div className="landing-engine-contract-list">
+          <span><code>validate_params</code><small>Reject incomplete configuration before work starts.</small></span>
+          <span><code>ExecutionContext</code><small>Carry parameters, prior outputs, environment, and cleanup.</small></span>
+          <span><code>ExecutionResult</code><small>Return status, evidence, timing, and reusable outputs.</small></span>
+        </div>
+        <p><Boxes />Preparers, checkers, builders, uploaders, and notifiers share one lifecycle.</p>
+      </div>
+
+      <div className="landing-engine-platform">
+        <header><span><Box /><b>Bakery task</b></span><em>Control plane</em></header>
+        <div className="landing-engine-task">
+          <span><small>Mobile release</small><strong>Task linked</strong></span>
+          <b><Activity /> Live</b>
+        </div>
+        <div className="landing-engine-events">
+          <span className="complete"><i><Check /></i><b><small>Prepare</small><strong>Inputs validated</strong></b><time>1.4s</time></span>
+          <span className="active"><i><CloudCog /></i><b><small>Build</small><strong>Flutter release</strong></b><time>running</time></span>
+          <span><i><PackageCheck /></i><b><small>Artifact</small><strong>Artifact ready</strong></b><time>queued</time></span>
+        </div>
+        <footer><small>Reporter events</small><div><code>running</code><code>success</code><code>failed</code></div></footer>
+      </div>
+    </div>
+
+    <div className="landing-engine-boundary">
+      <span><Activity /><b>Observable by design</b></span>
+      <p>Step reporting records status and duration without becoming the build engine. Plugin results control execution; the platform keeps the task, pipeline history, and installable artifact connected.</p>
+    </div>
+  </section>;
+}
+
+function DeviceManagementBridge() {
+  const registrationSteps = [
+    { label: "Preflight", detail: "12 / 12 checks passed", state: "done" },
+    { label: "Apple device", detail: "Existing device reused", state: "done" },
+    { label: "Ad Hoc profiles", detail: "Profile group activated", state: "done" },
+    { label: "Delivery", detail: "Rebuild required", state: "active" },
+  ];
+
+  return <section
+    className="landing-section landing-device-management"
+    id="devices"
+    aria-label="Register devices without profile drift"
+  >
+    <div className="landing-section-heading">
+      <span>Managed iOS devices</span>
+      <h2>Register devices without profile drift.</h2>
+      <p>Keep a company-wide inventory, reconcile Apple Team capacity through existing app connections, and update every Ad Hoc Profile as one traceable task. Bakery preserves what succeeded, what failed, and what must be rebuilt next.</p>
+    </div>
+
+    <div className="landing-device-workbench">
+      <div className="landing-device-inventory">
+        <header>
+          <span><Smartphone /><b>Company device pool</b></span>
+          <em><ShieldCheck /> Platform admins</em>
+        </header>
+        <div className="landing-device-summary">
+          <span><small>Company devices</small><strong>48</strong><em>Deduplicated</em></span>
+          <span><small>Apple Teams</small><strong>2</strong><em>Verified scope</em></span>
+          <span><small>Current profiles</small><strong>46</strong><em>Included</em></span>
+        </div>
+        <div className="landing-device-team">
+          <span><UsersRound /><b><small>Apple Team snapshot</small><strong>Team identity protected</strong></b></span>
+          <div><small>iPhone capacity</small><strong>46 / 100</strong></div>
+          <em><RefreshCw /> Synced</em>
+        </div>
+        <div className="landing-device-list">
+          <div className="landing-device-list-head"><span>Device</span><span>Team / Profile</span><span>Apple status</span><span /></div>
+          <div className="landing-device-row">
+            <span><Smartphone /><b><strong>QA iPhone 16 Pro</strong><small>UDID •••• 001E</small></b></span>
+            <span><code>com.example.qa</code><small>2 current profiles</small></span>
+            <em><CheckCircle2 /> Enabled</em>
+            <b>Register</b>
+          </div>
+          <div className="landing-device-row muted">
+            <span><Smartphone /><b><strong>Release iPad</strong><small>UDID •••• A82C</small></b></span>
+            <span><code>com.example.release</code><small>Profile observed</small></span>
+            <em><TimerReset /> Verify</em>
+            <b>Details</b>
+          </div>
+        </div>
+      </div>
+
+      <aside className="landing-device-task">
+        <header><span><Activity /><b>Registration task</b></span><em>Live</em></header>
+        <div className="landing-device-source">
+          <small>Existing App Store connection</small>
+          <strong>Mobile release · P8 connected</strong>
+          <span><GitBranch /> One device · One Team · Two apps</span>
+        </div>
+        <div className="landing-device-task-steps">
+          {registrationSteps.map((step) => <span className={step.state} key={step.label}>
+            <i>{step.state === "done" ? <Check /> : <RefreshCw />}</i>
+            <b><small>{step.label}</small><strong>{step.detail}</strong></b>
+          </span>)}
+        </div>
+        <footer><PackageCheck /><span><strong>Build a new IPA</strong><small>Existing artifacts keep their original Profile.</small></span><ArrowRight /></footer>
+      </aside>
+    </div>
+
+    <div className="landing-device-boundary">
+      <span><ShieldCheck /><b>Private by default</b><small>Complete UDIDs stay in private envelopes and no-store responses.</small></span>
+      <span><RefreshCw /><b>Failure stays scoped</b><small>One Team or app can fail without hiding completed work.</small></span>
+      <span><PackageCheck /><b>Delivery stays honest</b><small>A Profile update never claims an old IPA is ready.</small></span>
+    </div>
+  </section>;
+}
+
 export function LandingApp() {
   return <div className="landing-page">
     <header className="landing-nav">
@@ -210,6 +352,10 @@ export function LandingApp() {
           <div className="landing-shot-frame"><img src={marketingAsset("build-parameters-en.webp")} alt="Bakery build parameters screen with reusable branch, environment, version, and release fields" loading="lazy" decoding="async" /></div>
         </figure>
       </section>
+
+      <BuildEngineBridge />
+
+      <DeviceManagementBridge />
 
       <section className="landing-section landing-pipeline" id="pipeline">
         <div className="landing-pipeline-copy">

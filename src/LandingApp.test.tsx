@@ -1,4 +1,4 @@
-import { cleanup, render, screen } from "@testing-library/react";
+import { cleanup, render, screen, within } from "@testing-library/react";
 import { afterEach, describe, expect, test } from "vitest";
 import { LandingApp } from "./LandingApp";
 
@@ -15,6 +15,40 @@ describe("Bakery public site", () => {
     expect(screen.getByRole("heading", { name: /Know what is live before the next release/ })).toBeInTheDocument();
     expect(screen.getByRole("heading", { name: /See delivery health, not just build activity/ })).toBeInTheDocument();
     expect(screen.getByRole("heading", { name: /Keep credentials server-side/ })).toBeInTheDocument();
+  });
+
+  test("connects the composable Build CLI execution plane to the Bakery control plane", () => {
+    render(<LandingApp />);
+
+    const integration = screen.getByRole("region", {
+      name: "One platform, a composable build engine",
+    });
+    const integrationView = within(integration);
+
+    expect(integrationView.getByText("bcli pipeline run config/mobile/ios-release.yaml")).toBeInTheDocument();
+    expect(integrationView.getByText("prepare.env_jenkins")).toBeInTheDocument();
+    expect(integrationView.getByText("build.flutter")).toBeInTheDocument();
+    expect(integrationView.getByText("upload.internal")).toBeInTheDocument();
+    expect(integrationView.getByText("Execution plane")).toBeInTheDocument();
+    expect(integrationView.getByText("Control plane")).toBeInTheDocument();
+    expect(integrationView.getByText("Task linked")).toBeInTheDocument();
+    expect(integrationView.getByText("Artifact ready")).toBeInTheDocument();
+  });
+
+  test("presents managed devices as a complete registration-to-rebuild workflow", () => {
+    render(<LandingApp />);
+
+    const deviceManagement = screen.getByRole("region", {
+      name: "Register devices without profile drift",
+    });
+    const deviceManagementView = within(deviceManagement);
+
+    expect(deviceManagementView.getByText("Company device pool")).toBeInTheDocument();
+    expect(deviceManagementView.getByText("Apple Team snapshot")).toBeInTheDocument();
+    expect(deviceManagementView.getByText("12 / 12 checks passed")).toBeInTheDocument();
+    expect(deviceManagementView.getByText("Profile group activated")).toBeInTheDocument();
+    expect(deviceManagementView.getByText("Rebuild required")).toBeInTheDocument();
+    expect(deviceManagementView.getByText("Existing App Store connection")).toBeInTheDocument();
   });
 
   test("links calls to action to the production Bakery workspace", () => {
