@@ -1,3 +1,4 @@
+import { readFileSync } from "node:fs";
 import { cleanup, render, screen, within } from "@testing-library/react";
 import { afterEach, describe, expect, test } from "vitest";
 import { LandingApp } from "./LandingApp";
@@ -10,9 +11,11 @@ describe("Bakery public site", () => {
 
     expect(screen.getByRole("heading", { name: "Build. Package. Deliver." })).toBeInTheDocument();
     expect(screen.getByRole("heading", { name: /From code to installation/ })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: /Let automation plan before it builds/ })).toBeInTheDocument();
     expect(screen.getByRole("heading", { name: /Every build, clearly explained/ })).toBeInTheDocument();
     expect(screen.getByRole("heading", { name: /Keep every signing asset ready/ })).toBeInTheDocument();
     expect(screen.getByRole("heading", { name: /Know what is live before the next release/ })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: /Know exactly what you are releasing/ })).toBeInTheDocument();
     expect(screen.getByRole("heading", { name: /See delivery health, not just build activity/ })).toBeInTheDocument();
     expect(screen.getByRole("heading", { name: /Keep credentials server-side/ })).toBeInTheDocument();
   });
@@ -45,10 +48,61 @@ describe("Bakery public site", () => {
 
     expect(deviceManagementView.getByText("Company device pool")).toBeInTheDocument();
     expect(deviceManagementView.getByText("Apple Team snapshot")).toBeInTheDocument();
-    expect(deviceManagementView.getByText("12 / 12 checks passed")).toBeInTheDocument();
+    expect(deviceManagementView.getByText("One-time UDID session")).toBeInTheDocument();
     expect(deviceManagementView.getByText("Profile group activated")).toBeInTheDocument();
     expect(deviceManagementView.getByText("Rebuild required")).toBeInTheDocument();
     expect(deviceManagementView.getByText("Existing App Store connection")).toBeInTheDocument();
+  });
+
+  test("separates the final device status from the rebuild action", () => {
+    const css = readFileSync("src/landing-styles.css", "utf8");
+
+    expect(css).toMatch(/\.landing-device-task-steps\{[^}]*margin:0 15px 14px/);
+    expect(css).not.toMatch(/\.landing-device-task>footer\{margin-top:15px/);
+  });
+
+  test("presents scoped AI automation as a plan-first build workflow", () => {
+    render(<LandingApp />);
+
+    const automation = screen.getByRole("region", {
+      name: "Plan and run builds through AI-safe automation",
+    });
+    const automationView = within(automation);
+
+    expect(automationView.getByText("Apps, capabilities, and live options")).toBeInTheDocument();
+    expect(automationView.getByText("Validate inputs without side effects")).toBeInTheDocument();
+    expect(automationView.getByText("Scoped, idempotent build trigger")).toBeInTheDocument();
+    expect(automationView.getByText("OpenAPI · MCP · JSON Schema")).toBeInTheDocument();
+    expect(automationView.getByText("High-risk work stays separate.")).toBeInTheDocument();
+  });
+
+  test("summarizes exact artifact evidence and advisory release decisions", () => {
+    render(<LandingApp />);
+
+    const evidence = screen.getByRole("region", {
+      name: "Release candidates backed by exact evidence",
+    });
+    const evidenceView = within(evidence);
+
+    expect(evidenceView.getByText("Artifact SHA-256")).toBeInTheDocument();
+    expect(evidenceView.getByText("Build fingerprint")).toBeInTheDocument();
+    expect(evidenceView.getByText("2 repositories · frozen SHAs")).toBeInTheDocument();
+    expect(evidenceView.getByText("Build task delivery recorded")).toBeInTheDocument();
+    expect(evidenceView.getByText("Release regression suite")).toBeInTheDocument();
+    expect(evidenceView.getByText("Evidence snapshot preserved")).toBeInTheDocument();
+    expect(evidenceView.getByText("Advisory by design")).toBeInTheDocument();
+  });
+
+  test("shows the federated activity log as a cross-domain capability", () => {
+    render(<LandingApp />);
+
+    expect(screen.getByRole("img", {
+      name: "Cross-domain delivery activity timeline",
+    })).toBeInTheDocument();
+    expect(screen.getByRole("heading", {
+      name: "Trace every delivery action",
+    })).toBeInTheDocument();
+    expect(screen.getByText("Review synced")).toBeInTheDocument();
   });
 
   test("links calls to action to the production Bakery workspace", () => {
@@ -84,7 +138,7 @@ describe("Bakery public site", () => {
 
     expect(screen.getByRole("link", { name: "Signing" })).toHaveAttribute("href", "#signing");
     expect(screen.getByText("Private asset custody")).toBeInTheDocument();
-    expect(screen.getByText("Build machine sync")).toBeInTheDocument();
+    expect(screen.getByText("Task-scoped machine access")).toBeInTheDocument();
     expect(screen.getByText("Expiry health alerts")).toBeInTheDocument();
     expect(screen.getByText("com.example.mobile")).toBeInTheDocument();
     expect(screen.getByText("Team ••••••••••")).toBeInTheDocument();

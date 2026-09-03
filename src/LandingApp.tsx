@@ -2,6 +2,7 @@ import {
   Activity,
   ArrowRight,
   BellRing,
+  Bot,
   Box,
   Boxes,
   Braces,
@@ -11,7 +12,10 @@ import {
   CircleGauge,
   CloudCog,
   FileArchive,
+  Fingerprint,
   GitBranch,
+  GitCompareArrows,
+  KeyRound,
   Layers3,
   Link2,
   PackageCheck,
@@ -19,11 +23,14 @@ import {
   QrCode,
   RefreshCw,
   RotateCcw,
+  ScrollText,
   ShieldCheck,
   Smartphone,
   Store,
+  TestTube2,
   TimerReset,
   UsersRound,
+  Workflow,
 } from "lucide-react";
 import { BRAND } from "./brand";
 
@@ -85,6 +92,12 @@ const capabilities = [
     title: "Designed for team delivery",
     description: "Use roles, artifact activity, and Feishu notifications to get build results to the right people at the right time.",
   },
+  {
+    icon: ScrollText,
+    visual: "activity",
+    title: "Trace every delivery action",
+    description: "Follow builds, device registration, signing, store publishing, and AI operations in one filterable timeline with safe stage details.",
+  },
 ] as const;
 
 const signingAssetPreview = [
@@ -122,7 +135,7 @@ function WorkflowIllustration({ verb }: { verb: "Build" | "Package" | "Deliver" 
   </div>;
 }
 
-function CapabilityIllustration({ kind }: { kind: "orchestrate" | "pipeline" | "reuse" | "team" }) {
+function CapabilityIllustration({ kind }: { kind: "orchestrate" | "pipeline" | "reuse" | "team" | "activity" }) {
   if (kind === "orchestrate") return <div className="landing-capability-visual landing-orchestrate-visual" role="img" aria-label="Multiple CI providers connected to Bakery">
     <div><span>J</span><span>G</span><span>W</span></div><i /><b><Box /></b>
   </div>;
@@ -132,8 +145,13 @@ function CapabilityIllustration({ kind }: { kind: "orchestrate" | "pipeline" | "
   if (kind === "reuse") return <div className="landing-capability-visual landing-reuse-visual" role="img" aria-label="Reusable build configuration">
     <div><span><GitBranch />Branch</span><code>release/mobile</code></div><div><span><Braces />Parameters</span><code>preserved</code></div><b><RotateCcw />Run again</b>
   </div>;
-  return <div className="landing-capability-visual landing-team-visual" role="img" aria-label="Team roles and build notifications">
+  if (kind === "team") return <div className="landing-capability-visual landing-team-visual" role="img" aria-label="Team roles and build notifications">
     <div><span><UsersRound /></span><i /><span><ShieldCheck /></span><i /><span className="active"><BellRing /></span></div><small>Build owner notified</small>
+  </div>;
+  return <div className="landing-capability-visual landing-activity-visual" role="img" aria-label="Cross-domain delivery activity timeline">
+    <span className="complete"><i><Check /></i><b><small>Build</small><strong>Succeeded</strong></b><time>09:42</time></span>
+    <span className="active"><i><Smartphone /></i><b><small>Device</small><strong>Profile update</strong></b><time>09:45</time></span>
+    <span><i><Store /></i><b><small>Release</small><strong>Review synced</strong></b><time>09:48</time></span>
   </div>;
 }
 
@@ -204,7 +222,7 @@ function BuildEngineBridge() {
 
 function DeviceManagementBridge() {
   const registrationSteps = [
-    { label: "Preflight", detail: "12 / 12 checks passed", state: "done" },
+    { label: "QR capture", detail: "One-time UDID session", state: "done" },
     { label: "Apple device", detail: "Existing device reused", state: "done" },
     { label: "Ad Hoc profiles", detail: "Profile group activated", state: "done" },
     { label: "Delivery", detail: "Rebuild required", state: "active" },
@@ -218,7 +236,7 @@ function DeviceManagementBridge() {
     <div className="landing-section-heading">
       <span>Managed iOS devices</span>
       <h2>Register devices without profile drift.</h2>
-      <p>Keep a company-wide inventory, reconcile Apple Team capacity through existing app connections, and update every Ad Hoc Profile as one traceable task. Bakery preserves what succeeded, what failed, and what must be rebuilt next.</p>
+      <p>Capture a device through a one-time QR session, keep a company-wide inventory, reconcile Apple Team capacity through existing app connections, and update every Ad Hoc Profile as one traceable task.</p>
     </div>
 
     <div className="landing-device-workbench">
@@ -276,6 +294,97 @@ function DeviceManagementBridge() {
       <span><RefreshCw /><b>Failure stays scoped</b><small>One Team or app can fail without hiding completed work.</small></span>
       <span><PackageCheck /><b>Delivery stays honest</b><small>A Profile update never claims an old IPA is ready.</small></span>
     </div>
+  </section>;
+}
+
+function AutomationBridge() {
+  const automationSteps = [
+    { label: "Discover", detail: "Apps, capabilities, and live options", state: "done" },
+    { label: "Plan", detail: "Validate inputs without side effects", state: "done" },
+    { label: "Confirm", detail: "Scoped, idempotent build trigger", state: "active" },
+    { label: "Observe", detail: "Status, CI link, and safe cancellation", state: "queued" },
+  ];
+
+  return <section
+    className="landing-section landing-automation"
+    id="automation"
+    aria-label="Plan and run builds through AI-safe automation"
+  >
+    <div className="landing-section-heading">
+      <span>Automation API + MCP</span>
+      <h2>Let automation plan before it builds.</h2>
+      <p>Give trusted AI and integration clients a versioned contract for discovery, current store snapshots, build planning, confirmed execution, status, and cancellation—without scraping pages or exposing build secrets.</p>
+    </div>
+
+    <div className="landing-automation-workbench">
+      <div className="landing-automation-flow">
+        <header><span><Bot /><b>Trusted automation</b></span><em>Machine principal</em></header>
+        <div className="landing-automation-steps">
+          {automationSteps.map((step) => <span className={step.state} key={step.label}>
+            <i>{step.state === "done" ? <Check /> : step.state === "active" ? <Activity /> : <TimerReset />}</i>
+            <b><small>{step.label}</small><strong>{step.detail}</strong></b>
+          </span>)}
+        </div>
+        <footer><Workflow /><span><strong>One execution core</strong><small>Human and machine builds share the same validation and task lifecycle.</small></span></footer>
+      </div>
+
+      <aside className="landing-automation-contract">
+        <header><Braces /><span><small>Versioned contract</small><strong>OpenAPI · MCP · JSON Schema</strong></span></header>
+        <div>
+          <span><KeyRound /><b>Independent scopes</b><small>Header-only machine identity and least-privilege capabilities.</small></span>
+          <span><ShieldCheck /><b>Safe planning</b><small>Defaults, dynamic options, and risk checks before CI is called.</small></span>
+          <span><RefreshCw /><b>Idempotent execution</b><small>Retries return the same operation instead of starting another build.</small></span>
+        </div>
+      </aside>
+    </div>
+
+    <div className="landing-automation-boundary"><ShieldCheck /><span><strong>High-risk work stays separate.</strong><small>Release builds require an additional scope and explicit sign-off; store publishing, signing, and device writes are not inherited.</small></span></div>
+  </section>;
+}
+
+function ReleaseEvidenceBridge() {
+  const evidence = [
+    { icon: ShieldCheck, label: "Production inputs", detail: "Release package · prod API", status: "Passed" },
+    { icon: GitCompareArrows, label: "Source provenance", detail: "2 repositories · frozen SHAs", status: "Complete" },
+    { icon: KeyRound, label: "Signing receipt", detail: "Build task delivery recorded", status: "Current" },
+    { icon: TestTube2, label: "Device Cloud", detail: "Release regression suite", status: "Passed" },
+  ];
+
+  return <section
+    className="landing-section landing-release-evidence"
+    id="evidence"
+    aria-label="Release candidates backed by exact evidence"
+  >
+    <div className="landing-section-heading">
+      <span>Trusted artifacts + release admission</span>
+      <h2>Know exactly what you are releasing.</h2>
+      <p>Bind each candidate to an artifact SHA-256, freeze the source and build inputs that produced it, then review signing delivery and Device Cloud results before recording an approval or reasoned waiver.</p>
+    </div>
+
+    <div className="landing-evidence-workbench">
+      <div className="landing-evidence-candidate">
+        <header><span><PackageCheck /><b>Mobile App · 3.8.0</b></span><em>Advisory review</em></header>
+        <div className="landing-evidence-identity">
+          <span><small>Artifact SHA-256</small><code>8f2d…5c91</code></span>
+          <span><small>Build fingerprint</small><code>4a70…b812</code></span>
+          <span><small>Target</small><strong>Production</strong></span>
+        </div>
+        <div className="landing-evidence-grid">
+          {evidence.map(({ icon: Icon, label, detail, status }) => <article key={label}>
+            <Icon /><span><small>{label}</small><strong>{detail}</strong></span><em>{status}</em>
+          </article>)}
+        </div>
+        <footer><span><CheckCircle2 /><b><small>Decision recorded</small><strong>Evidence snapshot preserved</strong></b></span><em>Approved</em></footer>
+      </div>
+
+      <aside className="landing-provenance-card">
+        <header><Fingerprint /><span><small>Immutable provenance</small><strong>Artifact to source</strong></span></header>
+        <div><span><GitBranch /><b><small>Host app</small><code>release/mobile · 0123456…</code></b></span><i /><span><GitBranch /><b><small>Flutter module</small><code>release/mobile · 89abcde…</code></b></span><i /><span><PackageCheck /><b><small>Artifact</small><code>SHA-256 verified</code></b></span></div>
+        <p><ShieldCheck />Missing or partial evidence stays visible; Bakery never guesses from a filename, short commit, or “latest” build.</p>
+      </aside>
+    </div>
+
+    <div className="landing-evidence-boundary"><Activity /><span><strong>Advisory by design</strong><small>Risk is visible and decisions are auditable, while the first release does not silently block existing store workflows.</small></span></div>
   </section>;
 }
 
@@ -355,6 +464,8 @@ export function LandingApp() {
 
       <BuildEngineBridge />
 
+      <AutomationBridge />
+
       <DeviceManagementBridge />
 
       <section className="landing-section landing-pipeline" id="pipeline">
@@ -377,10 +488,10 @@ export function LandingApp() {
         <div className="landing-signing-copy">
           <span>Signing asset operations</span>
           <h2>Keep every signing asset ready for the next build.</h2>
-          <p>Manage certificates, provisioning profiles, service keys, and release credentials by application, purpose, and environment. Bakery validates each upload and keeps private content in protected object storage.</p>
+          <p>Manage certificates, provisioning profiles, service keys, and release credentials by application, purpose, and environment. Bakery validates each upload, keeps private content protected, and scopes delivery to authorized physical build machines.</p>
           <div className="landing-signing-benefits">
-            <article><ShieldCheck /><span><strong>Private asset custody</strong><small>Role-based access, encrypted storage, version history, and auditable activity.</small></span></article>
-            <article><RotateCcw /><span><strong>Build machine sync</strong><small>Revocable machine credentials retrieve the current authorized bundle and replace it atomically.</small></span></article>
+            <article><ShieldCheck /><span><strong>Private asset custody</strong><small>Role-based access, encrypted storage, version history, and audited ownership transfers.</small></span></article>
+            <article><RotateCcw /><span><strong>Task-scoped machine access</strong><small>Revocable credentials bind a physical machine, allowed environments, and the assigned build task.</small></span></article>
             <article><BellRing /><span><strong>Expiry health alerts</strong><small>Project pages surface safe, aggregate warnings before active assets expire or become invalid.</small></span></article>
           </div>
         </div>
@@ -431,6 +542,8 @@ export function LandingApp() {
           </div>
         </div>
       </section>
+
+      <ReleaseEvidenceBridge />
 
       <section className="landing-section landing-insights" id="insights">
         <div className="landing-insights-copy">

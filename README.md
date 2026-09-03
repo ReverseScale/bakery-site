@@ -2,7 +2,13 @@
 
 Bakery 的独立产品官网，内容从 distributor 的未登录介绍页抽取，使用 Vite、React 和静态营销配图构建，可部署到 GitHub Pages。
 
-官网包含 Build、Package、Deliver 主叙事、Signing asset operations 与 Delivery intelligence 产品证明区。
+官网包含 Build、Package、Deliver 主叙事，以及 Build engine、AI Automation API + MCP、Managed iOS devices、Signing asset operations、Official store visibility、Trusted artifacts + release admission、Delivery intelligence 和 Federated activity log 产品证明区。
+
+Trusted artifacts + release admission 介绍制品 SHA-256、构建输入指纹、多源码完整提交、签名资产领取记录和 Device Cloud 测试结果如何汇总为提示式发布候选。该能力记录批准或豁免时的证据快照，但当前不会阻断既有商店发布路径，也不声称验证安装包内嵌签名。
+
+AI Automation API + MCP 介绍受信机器主体通过版本化契约完成能力发现、无副作用计划、显式确认、幂等触发、状态读取与取消。官网明确保留权限边界：高风险上架包需要独立 scope，商店发布、签名资产和设备写操作不会从构建权限继承。
+
+Federated activity log 介绍构建、设备注册、签名、商店发布和 AI 操作的统一脱敏时间线。它聚合既有权威事实并提供稳定错误码和阶段详情，不复制业务状态，也不把任务成功扩大解释为部署或业务验收成功。
 
 Signing asset operations 介绍证书、Provisioning Profile、服务密钥等项目级资产托管，打包机使用可撤销机器凭据自动同步当前有效资产，以及项目页面中的聚合过期提醒。该区块使用 React/CSS 构造的脱敏产品示意，不引用生产截图；应用名、Bundle ID、Team ID、文件名、设备数量和具体有效期均为通用示例或掩码。
 
