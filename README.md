@@ -2,7 +2,7 @@
 
 Bakery 的独立产品官网，内容从 distributor 的未登录介绍页抽取，使用 Vite、React 和静态营销配图构建，可部署到 GitHub Pages。
 
-官网包含 Build、Package、Deliver 主叙事，以及 Build engine、AI Automation API + MCP、Managed iOS devices、Signing asset operations、Official store visibility、Trusted artifacts + release admission、Delivery intelligence 和 Federated activity log 产品证明区。
+官网包含 Build、Package、Deliver 主叙事，以及可独立运行并可接入 Bakery 的 bcli 插件引擎、AI Automation API + MCP、Managed iOS devices、Signing asset operations、Official store visibility、Trusted artifacts + release admission、Delivery intelligence 和 Federated activity log 产品证明区。bcli 区块基于当前 25 个内置插件，说明声明式流水线、不可变配置快照、步骤数据传递、预览/演练和可选任务上报能力。
 
 Trusted artifacts + release admission 介绍制品 SHA-256、构建输入指纹、多源码完整提交、签名资产领取记录和 Device Cloud 测试结果如何汇总为提示式发布候选。该能力记录批准或豁免时的证据快照，但当前不会阻断既有商店发布路径，也不声称验证安装包内嵌签名。
 

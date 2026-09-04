@@ -20,22 +20,37 @@ describe("Bakery public site", () => {
     expect(screen.getByRole("heading", { name: /Keep credentials server-side/ })).toBeInTheDocument();
   });
 
-  test("connects the composable Build CLI execution plane to the Bakery control plane", () => {
+  test("presents bcli as a standalone plugin engine that can connect to Bakery", () => {
     render(<LandingApp />);
 
     const integration = screen.getByRole("region", {
-      name: "One platform, a composable build engine",
+      name: "Run bcli standalone or connect it to Bakery",
     });
     const integrationView = within(integration);
 
+    expect(integrationView.getByRole("heading", { name: /Standalone when you want it/ })).toBeInTheDocument();
+    expect(integrationView.getByText("Standalone bcli")).toBeInTheDocument();
+    expect(integrationView.getByText("Connected to Bakery")).toBeInTheDocument();
+    expect(integrationView.getByText(/--config-ref <commit-sha>/)).toBeInTheDocument();
+    expect(integrationView.getByText("DISTRIBUTOR_BUILD_TASK_ID")).toBeInTheDocument();
     expect(integrationView.getByText("bcli pipeline run config/mobile/ios-release.yaml")).toBeInTheDocument();
     expect(integrationView.getByText("prepare.env_jenkins")).toBeInTheDocument();
     expect(integrationView.getByText("build.flutter")).toBeInTheDocument();
     expect(integrationView.getByText("upload.internal")).toBeInTheDocument();
+    expect(integrationView.getByText("25 plugins, one lifecycle")).toBeInTheDocument();
+    expect(integrationView.getByText("11 plugins")).toBeInTheDocument();
+    expect(integrationView.getByText("5 plugins")).toBeInTheDocument();
+    expect(integrationView.getByText("3 plugins")).toBeInTheDocument();
+    expect(integrationView.getByText("4 plugins")).toBeInTheDocument();
+    expect(integrationView.getByText("2 plugins")).toBeInTheDocument();
     expect(integrationView.getByText("Execution plane")).toBeInTheDocument();
     expect(integrationView.getByText("Control plane")).toBeInTheDocument();
     expect(integrationView.getByText("Task linked")).toBeInTheDocument();
     expect(integrationView.getByText("Artifact ready")).toBeInTheDocument();
+    expect(integrationView.getByText("Declare, don't hard-code")).toBeInTheDocument();
+    expect(integrationView.getByText("Pin every run")).toBeInTheDocument();
+    expect(integrationView.getByText("Preview before execution")).toBeInTheDocument();
+    expect(integrationView.getByText("Observe end to end")).toBeInTheDocument();
   });
 
   test("presents managed devices as a complete registration-to-rebuild workflow", () => {

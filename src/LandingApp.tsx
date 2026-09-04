@@ -163,15 +163,36 @@ function BuildEngineBridge() {
     { group: "Upload", plugin: "upload.internal", detail: "Link the artifact", state: "queued" },
   ];
 
+  const pluginFamilies = [
+    { name: "Prepare", count: 11, examples: "Signing · repository · environment" },
+    { name: "Check", count: 5, examples: "MR · localization · package policy" },
+    { name: "Build", count: 3, examples: "Flutter · iOS · Android" },
+    { name: "Upload", count: 4, examples: "Internal · App Store · symbols" },
+    { name: "Notify", count: 2, examples: "Feishu · project updates" },
+  ];
+
   return <section
     className="landing-section landing-build-engine"
     id="build-engine"
-    aria-label="One platform, a composable build engine"
+    aria-label="Run bcli standalone or connect it to Bakery"
   >
     <div className="landing-section-heading">
-      <span>Build engine integration</span>
-      <h2>One platform, a composable build engine.</h2>
-      <p>Bakery owns the delivery task and its evidence. Build CLI turns a versioned pipeline into executable plugins on the build machine, then streams each transition and artifact back to the same workspace.</p>
+      <span>Build CLI · bcli</span>
+      <h2>One engine. Standalone when you want it, connected when you need it.</h2>
+      <p>bcli turns versioned YAML into validated plugin steps. Run it directly from a shell or existing CI, then connect it to Bakery when your team needs governed inputs, live progress, and artifact evidence.</p>
+    </div>
+
+    <div className="landing-engine-modes">
+      <article>
+        <header><Braces /><span><small>Standalone bcli</small><strong>Bring the engine to any repository.</strong></span></header>
+        <p>Compose and run a mobile pipeline without Bakery. Preview the plan, pass runtime parameters, and pin the configuration commit for a reproducible build.</p>
+        <code>bcli pipeline run ... --config-ref &lt;commit-sha&gt;</code>
+      </article>
+      <article>
+        <header><Link2 /><span><small>Connected to Bakery</small><strong>Add a control plane without replacing the engine.</strong></span></header>
+        <p>Keep execution on the build machine while Bakery supplies trusted task context and receives step status, timing, and the resulting artifact.</p>
+        <code>DISTRIBUTOR_BUILD_TASK_ID</code>
+      </article>
     </div>
 
     <div className="landing-engine-workbench">
@@ -188,14 +209,15 @@ function BuildEngineBridge() {
         </div>
       </div>
 
-      <div className="landing-engine-contract">
-        <div className="landing-engine-contract-title"><Braces /><span><small>Stable plugin contract</small><strong>Replace steps, not the engine</strong></span></div>
-        <div className="landing-engine-contract-list">
-          <span><code>validate_params</code><small>Reject incomplete configuration before work starts.</small></span>
-          <span><code>ExecutionContext</code><small>Carry parameters, prior outputs, environment, and cleanup.</small></span>
-          <span><code>ExecutionResult</code><small>Return status, evidence, timing, and reusable outputs.</small></span>
+      <div className="landing-engine-catalog">
+        <div className="landing-engine-catalog-title"><Boxes /><span><small>Built-in plugin library</small><strong>25 plugins, one lifecycle</strong></span></div>
+        <div className="landing-engine-catalog-list">
+          {pluginFamilies.map((family) => <span key={family.name}>
+            <b><strong>{family.name}</strong><em>{family.count} plugins</em></b>
+            <small>{family.examples}</small>
+          </span>)}
         </div>
-        <p><Boxes />Preparers, checkers, builders, uploaders, and notifiers share one lifecycle.</p>
+        <p><Braces />Validated parameters · Shared outputs · Guaranteed cleanup</p>
       </div>
 
       <div className="landing-engine-platform">
@@ -213,9 +235,11 @@ function BuildEngineBridge() {
       </div>
     </div>
 
-    <div className="landing-engine-boundary">
-      <span><Activity /><b>Observable by design</b></span>
-      <p>Step reporting records status and duration without becoming the build engine. Plugin results control execution; the platform keeps the task, pipeline history, and installable artifact connected.</p>
+    <div className="landing-engine-principles">
+      <article><Braces /><span><strong>Declare, don't hard-code</strong><small>Compose YAML from validated plugins, parameters, and prior step outputs.</small></span></article>
+      <article><GitBranch /><span><strong>Pin every run</strong><small>Resolve remote configuration to an exact Git SHA for replay and rollback.</small></span></article>
+      <article><CircleGauge /><span><strong>Preview before execution</strong><small>Inspect the plan with preview or dry-run modes before work begins.</small></span></article>
+      <article><Activity /><span><strong>Observe end to end</strong><small>Keep step timing locally, or report live progress and artifacts to Bakery.</small></span></article>
     </div>
   </section>;
 }
